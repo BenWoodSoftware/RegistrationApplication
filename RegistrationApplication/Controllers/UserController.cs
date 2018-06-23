@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
+using RegistrationApplication.Models;
 namespace RegistrationApplication.Controllers
 {
     public class UserController : Controller
@@ -11,7 +11,9 @@ namespace RegistrationApplication.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            UserDBHandler UserDBH = new UserDBHandler();
+            ModelState.Clear();
+            return View(UserDBH.GetUsers());
         }
 
         // GET: User/Details/5
@@ -28,13 +30,20 @@ namespace RegistrationApplication.Controllers
 
         // POST: User/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(UserModel user)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    UserDBHandler UserDBH = new UserDBHandler();
+                    if (UserDBH.AddUsers(user))
+                    {
+                        ViewBag.Message = "User has been registered successfully";
+                        ModelState.Clear();
+                    }
+                }
+                return View();
             }
             catch
             {
@@ -42,11 +51,11 @@ namespace RegistrationApplication.Controllers
             }
         }
 
-        // GET: User/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+            // GET: User/Edit/5
+            public ActionResult Edit(int id)
+            {
+                return View();
+            }
 
         // POST: User/Edit/5
         [HttpPost]
@@ -64,13 +73,13 @@ namespace RegistrationApplication.Controllers
             }
         }
 
-        // GET: User/Delete/5
+        // GET: User/Delete
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: User/Delete/5
+        // POST: User/Delete
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
