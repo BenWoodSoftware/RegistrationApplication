@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace RegistrationApplication.Models
 {
@@ -22,9 +24,10 @@ namespace RegistrationApplication.Models
             SqlConnector();
             SqlCommand cmd = new SqlCommand("AddNewUser", sqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
-
-            cmd.Parameters.AddWithValue("@Email",userModel.Email);
-            cmd.Parameters.AddWithValue("@Password", userModel.Password);
+            cmd.Parameters.AddWithValue("@Email", userModel.Email.ToLower());
+            var salt = GenerateSalt();
+            var hashedPass = ComputeHMAC_SHA256(Encoding.UTF8.GetBytes(userModel.Password), salt);
+            cmd.Parameters.AddWithValue("@Password", Convert.ToBase64String(hashedPass));
             sqlConnection.Open();
             var response = cmd.ExecuteNonQuery();
             sqlConnection.Close();
@@ -54,6 +57,42 @@ namespace RegistrationApplication.Models
 
             return UserList;
         }
+
+        public static byte[] GenerateSalt()
+        {
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                var salt = new byte[32];
+
+                rng.GetBytes(salt);
+
+                return salt;
+
+            }
+        }
+
+        public static byte[] ComputeHMAC_SHA256(byte[] data, byte[] salt)
+        {
+            using (var hmac = new HMACSHA256(salt))
+            {
+                return hmac.ComputeHash(data);
+            }
+        }
+
+        public bool CheckForDuplicate(string email)
+        {
+            var userRegister = GetUsers();
+            foreach(var item in userRegister) 
+            {
+                if (email.ToLower().Equals(item.Email))
+                {
+                    return true;
+                }
+            };
+            return false;
+        }
+        
+
     }
 
 }

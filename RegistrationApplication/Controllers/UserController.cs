@@ -37,7 +37,12 @@ namespace RegistrationApplication.Controllers
                 if (ModelState.IsValid)
                 {
                     UserDBHandler UserDBH = new UserDBHandler();
-                    if (UserDBH.AddUsers(user))
+                    if(UserDBH.CheckForDuplicate(user.Email))
+                    {
+                        ViewBag.Message = "User has already been registered";
+                        ModelState.Clear();
+                    }
+                    else if (UserDBH.AddUsers(user))
                     {
                         ViewBag.Message = "User has been registered successfully";
                         ModelState.Clear();
@@ -47,6 +52,7 @@ namespace RegistrationApplication.Controllers
             }
             catch
             {
+                ViewBag.Message = "Unable to add user to DB. Please try Again.";
                 return View();
             }
         }
