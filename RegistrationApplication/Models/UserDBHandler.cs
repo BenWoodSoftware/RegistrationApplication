@@ -21,12 +21,12 @@ namespace RegistrationApplication.Models
 
         public bool AddUsers(UserModel userModel)
         {
+            var hashedPass = ComputeHMAC_SHA256(Encoding.UTF8.GetBytes(userModel.Password), GenerateSalt());
+
             SqlConnector();
             SqlCommand cmd = new SqlCommand("AddNewUser", sqlConnection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Email", userModel.Email.ToLower());
-            var salt = GenerateSalt();
-            var hashedPass = ComputeHMAC_SHA256(Encoding.UTF8.GetBytes(userModel.Password), salt);
             cmd.Parameters.AddWithValue("@Password", Convert.ToBase64String(hashedPass));
             sqlConnection.Open();
             var response = cmd.ExecuteNonQuery();

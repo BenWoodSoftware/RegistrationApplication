@@ -11,15 +11,7 @@ namespace RegistrationApplication.Controllers
         // GET: User
         public ActionResult Index()
         {
-            UserDBHandler UserDBH = new UserDBHandler();
-            ModelState.Clear();
-            return View(UserDBH.GetUsers());
-        }
-
-        // GET: User/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
+            return RedirectToAction("Create", "User");
         }
 
         // GET: User/Create
@@ -52,53 +44,10 @@ namespace RegistrationApplication.Controllers
             }
             catch
             {
-                ViewBag.Message = "Unable to add user to DB. Please try Again.";
+                ViewBag.Message = "Unable to add user. Please try Again.";
                 return View();
             }
         }
 
-            // GET: User/Edit/5
-            public ActionResult Edit(int id)
-            {
-                return View();
-            }
-
-        // POST: User/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: User/Delete
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: User/Delete
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }
