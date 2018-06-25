@@ -1,87 +1,30 @@
 # Project Title
 
-One Paragraph of project description goes here
+Registration Application
 
 ## Getting Started
+A SQL deployment script has been generated for use with a local db. If there are any issues, the raw table structure and stored procedures have been provided alongside.
+This was generated using SQL Server Express 2017.
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+### Operations
 
-### Prerequisites
+On Start-Up, the user should be navigated to the /User/Create route. The view should show a field for an email and a password. 
+Validation for length and field contents have been used, and will result in red text appearing if they are violated.
 
-What things you need to install the software and how to install them
+Providing there are no errors being displayed, the user can then submit these fields for entry into the database. 
+ - If there exists no duplicate email address, the information will be accepted and the user will receive a success message.
+ - If a duplicate exists, the details will fail to be inserted into the database and the user will receive a duplicate exists message.
+ - If the database fails to insert these values due to command exception, the user will be informed that it could not be added.
 
-```
-Give examples
-```
+### Security concerns
+ 
+ - Stored procedures and Command Parameters have been used to prevent the database from being exposed to malicious/rogue SQL injection. 
+ - MVC Validation attributes have been used to prevent XSS abuse in the input fields. 
+ - The Password on entry is been salted and hashed with SHA256 to ensure industry appropriate secure storage is respected.
+ - The SQL Database restricts the Email to a maximum 320 characters, giving room for any address that fall with character length ranges of  255 + @ + 64.
+ - Password is restricted to 64 characters to only allow for SHA256 usage.
 
-### Installing
+## Unit tests
 
-A step by step series of examples that tell you how to get a development env running
+ - Various unit tests have been provided, mainly focusing on validating the model's behavior against various offending inputs. 
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
