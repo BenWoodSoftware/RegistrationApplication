@@ -1,6 +1,4 @@
-# Project Title
-
-Registration Application
+# Registration Application
 
 ## Getting Started
 A SQL deployment script has been generated for use with a local db. If there are any issues, the raw table structure and stored procedures have been provided alongside.
@@ -27,4 +25,5 @@ Providing there are no errors being displayed, the user can then submit these fi
 ## Unit tests
 
  - Various unit tests have been provided, mainly focusing on validating the model's behavior against various offending inputs. 
+ 
 
