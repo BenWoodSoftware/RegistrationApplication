@@ -14,7 +14,7 @@ namespace RegistrationApplication.Models
 
         [Required(ErrorMessage = "Email is required.")]
         [EmailAddress]
-        [StringLength(320)]
+        [StringLength(320, ErrorMessage = "Email Address must not exceed 320 characters")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]

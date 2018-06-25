@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using RegistrationApplication.Models;
+
 namespace RegistrationApplication.Controllers
 {
     public class UserController : Controller
@@ -17,7 +14,7 @@ namespace RegistrationApplication.Controllers
         // GET: User/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: User/Create
@@ -40,7 +37,7 @@ namespace RegistrationApplication.Controllers
                         ModelState.Clear();
                     }
                 }
-                return View();
+                return View("Create");
             }
             catch
             {
